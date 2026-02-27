@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马卡龙扭蛋机</title>
+    <style>
+        /* --- 基础设置与字体 --- */
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=ZCOOL+KuaiLe&display=swap');
+
+        :root {
+            --bg-color: #FFF9F0;
+            --machine-body: #FFB7B2;
+            --machine-glass: #E2F0CB;
+            --machine-base: #FFDAC1;
+            --ball-color: #B5EAD7;
+            --btn-color: #C7CEEA;
+            --text-color: #6D6875;
+            --gray-locked: #E0E0E0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Nunito', 'ZCOOL KuaiLe', sans-serif;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 2rem;
+            color: #FF9AA2;
+            text-shadow: 2px 2px 0px #FFF;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-weight: normal;
+            letter-spacing: 5px;
+        }
+
+        /* --- 扭蛋机主体 --- */
+        .machine-container {
+            position: relative;
+            margin: 30px auto;
+            width: 300px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+      .machine-head {
+            width: 280px;
+            height: 280px;
+            background-color: var(--machine-body);
+            border-radius: 50%;
+            border: 8px solid #FFF;
+            box-shadow: 0 10px 20px rgba(255, 183, 178, 0.4);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible; /* 改这里：允许耳朵露出来 */
+            z-index: 2;
+            margin-top: 40px; /* 给耳朵留点空间 */
+        }
+
+        /* 左耳朵 */
+        .machine-head::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 40px;
+            width: 70px;
+            height: 70px;
+            background-color: var(--machine-body);
+            border: 8px solid #FFF;
+            border-radius: 50%;
+            z-index: -1; /* 放在主体后面 */
+        }
+
+        /* 右耳朵 */
+        .machine-head::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: 40px;
+            width: 70px;
+            height: 70px;
+            background-color: var(--machine-body);
+            border: 8px solid #FFF;
+            border-radius: 50%;
+            z-index: -1; /* 放在主体后面 */
+        }
+
+        .glass-window {
+            width: 180px;
+            height: 180px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            padding: 10px;
+            gap: 5px;
+        }
+
+            .mini-ball {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            /* 这里用线性渐变实现双色球 */
+            background: linear-gradient(135deg, var(--ball-color) 50%, #fff 50%);
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.1);
+            animation: float 3s infinite ease-in-out;
+        }
+   
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .machine-base {
+            width: 200px;
+            height: 100px;
+            background-color: var(--machine-base);
+            border-radius: 20px 20px 40px 40px;
+            margin-top: -20px;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .knob {
+            width: 60px;
+            height: 60px;
+            background-color: #FF9AA2;
+            border-radius: 50%;
+            border: 4px solid #FFF;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 4px 0 #E57373;
+        }
+
+        .knob:active {
+            transform: rotate(-90deg);
+            box-shadow: 0 0 0 #E57373;
+            margin-top: 4px;
+        }
+
+        .knob.spinning {
+            animation: spinKnob 0.5s linear infinite;
+        }
+
+        @keyframes spinKnob {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .drop-zone {
+            position: absolute;
+            bottom: 20px;
+            width: 100px;
+            height: 80px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 10px 10px 30px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gacha-ball-drop {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #B5EAD7 50%, #fff 50%);
+            border-radius: 50%;
+            position: absolute;
+            top: -100px;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            cursor: pointer;
+            animation: dropBall 1s cubic-bezier(0.5, 0, 1, 1) forwards;
+        }
+
+        @keyframes dropBall {
+            0% { top: -100px; transform: rotate(0deg); }
+            100% { top: 20px; transform: rotate(720deg); }
+        }
+
+        /* --- 底部按钮区 --- */
+        .controls {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-size: 1.1rem;
+            font-weight: normal;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+            color: white;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        .btn-gacha {
+            background-color: #FF9AA2;
+        }
+
+        .btn-collection {
+            background-color: #C7CEEA;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- 弹窗 (Modal) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 320px;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 5px solid var(--machine-body);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            color: #333333;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-weight: normal;
+            margin: 10px 0 20px 0;
+            letter-spacing: 2px;
+        }
+
+        .modal-desc {
+            color: #666666;
+            font-size: 15px;
+            font-family: "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .new-badge {
+            background-color: #FFDAC1;
+            color: #d68c45;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            animation: pop 0.5s infinite alternate;
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            margin: 0;
+            z-index: 10;
+        }
+
+        @keyframes pop {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .btn-close {
+            background-color: var(--btn-color);
+            color: white;
+            padding: 10px 40px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: block;
+            margin: 20px auto 0;
+            width: fit-content;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        /* --- 图鉴页面 --- */
+        .collection-page {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color);
+            z-index: 50;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.4s ease-in-out;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        .collection-page.active {
+            transform: translateX(0);
+        }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .collection-header h2 {
+            font-family: "Microsoft YaHei", sans-serif;
+            font-weight: normal;
+            color: #333;
+        }
+
+        .close-collection {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF9AA2, #B5EAD7);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border-radius: 15px;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .grid-item.locked {
+            background-color: var(--gray-locked);
+            cursor: not-allowed;
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+        
+        .grid-item.locked::after {
+            content: '?';
+            font-size: 2rem;
+            color: #aaa;
+            font-weight: bold;
+        }
+
+        .grid-item:hover:not(.locked) {
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>✨ 幸运扭蛋机 ✨</h1>
+
+    <div class="machine-container">
+        <div class="machine-head">
+            <div class="glass-window" id="glassWindow">
+            </div>
+        </div>
+        <div class="machine-base">
+            <div class="knob" id="spinBtn" onclick="spinGacha()">↻</div>
+            <div class="drop-zone">
+                <div class="gacha-ball-drop" id="droppedBall" onclick="openResult()"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-gacha" onclick="spinGacha()">扭一下！</button>
+        <button class="btn btn-collection" onclick="toggleCollection(true)">
+            🎁 图鉴
+        </button>
+    </div>
+
+    <!-- 结果弹窗 -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-content">
+            <div id="newBadge" class="new-badge" style="display:none;">NEW! 首次获得</div>
+            <img src="" alt="Item" class="modal-img" id="modalImg">
+            <h2 class="modal-title" id="modalTitle">物品名称</h2>
+            <p class="modal-desc" id="modalDesc">物品描述...</p>
+            <button class="btn-close" onclick="closeModal()">收下啦</button>
+        </div>
+    </div>
+
+    <!-- 图鉴页面 -->
+    <div class="collection-page" id="collectionPage">
+        <div class="collection-header">
+            <h2>我的收藏</h2>
+            <div class="close-collection" onclick="toggleCollection(false)">&times;</div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p style="text-align: center; margin-bottom: 20px; color: #888;">收集进度：<span id="progressText">0/20</span></p>
+
+        <div class="grid-container" id="collectionGrid">
+        </div>
+    </div>
+
+    <script>
+        // --- 1. 数据配置 (20 个物品) ---
+        const itemsData = [
+            { id: 1, name: "草莓大福", desc: "软糯 Q 弹，甜度满分！", color: "FFB7B2", imageUrl: "https://placehold.co/150/FFB7B2/white?text=Strawberry" },
+            { id: 2, name: "薄荷冰淇淋", desc: "清凉一夏，透心凉。", color: "B5EAD7", imageUrl: "https://placehold.co/150/B5EAD7/white?text=Mint" },
+            { id: 3, name: "柠檬挞", desc: "酸酸甜甜，活力满满。", color: "FFDAC1", imageUrl: "https://placehold.co/150/FFDAC1/white?text=Lemon" },
+            { id: 4, name: "薰衣草香薰", desc: "安神助眠，梦幻紫色。", color: "E2F0CB", imageUrl: "https://placehold.co/150/E2F0CB/white?text=Lavender" },
+            { id: 5, name: "蓝莓松饼", desc: "周末早晨的最佳伴侣。", color: "C7CEEA", imageUrl: "https://placehold.co/150/C7CEEA/white?text=Blueberry" },
+            { id: 6, name: "蜜桃乌龙", desc: "茶香与果香的完美融合。", color: "FF9AA2", imageUrl: "https://placehold.co/150/FF9AA2/white?text=Peach" },
+            { id: 7, name: "抹茶千层", desc: "苦中带甜，层次丰富。", color: "A8E6CF", imageUrl: "https://placehold.co/150/A8E6CF/white?text=Matcha" },
+            { id: 8, name: "海盐焦糖", desc: "咸甜交织，口感独特。", color: "FFD3B6", imageUrl: "https://placehold.co/150/FFD3B6/white?text=SeaSalt" },
+            { id: 9, name: "香芋波波", desc: "紫色的小可爱，嚼劲十足。", color: "DCEDC8", imageUrl: "https://placehold.co/150/DCEDC8/white?text=Taro" },
+            { id: 10, name: "星空棒棒糖", desc: "仿佛把银河握在手中。", color: "B39DDB", imageUrl: "https://placehold.co/150/B39DDB/white?text=Galaxy" },
+            { id: 11, name: "云朵抱枕", desc: "像躺在云端一样柔软。", color: "FFFFFF", imageUrl: "https://placehold.co/150/FFFFFF/333?text=Cloud" },
+            { id: 12, name: "彩虹发夹", desc: "点亮你的发型。", color: "FFAB91", imageUrl: "https://placehold.co/150/FFAB91/white?text=Rainbow" },
+            { id: 13, name: "猫咪马克杯", desc: "喝水都要可可爱爱。", color: "BCAAA4", imageUrl: "https://placehold.co/150/BCAAA4/white?text=Cat" },
+            { id: 14, name: "向日葵种子", desc: "种下希望，等待花开。", color: "FFF59D", imageUrl: "https://placehold.co/150/FFF59D/333?text=Sunflower" },
+            { id: 15, name: "复古胶卷", desc: "记录美好的瞬间。", color: "90A4AE", imageUrl: "https://placehold.co/150/90A4AE/white?text=Film" },
+            { id: 16, name: "魔法药水", desc: "喝了会变开心哦！(假的)", color: "CE93D8", imageUrl: "https://placehold.co/150/CE93D8/white?text=Potion" },
+            { id: 17, name: "像素游戏机", desc: "回到 8-bit 的童年。", color: "81D4FA", imageUrl: "https://placehold.co/150/81D4FA/white?text=Game" },
+            { id: 18, name: "多肉植物", desc: "好养又好看的桌面绿植。", color: "A5D6A7", imageUrl: "https://placehold.co/150/A5D6A7/white?text=Succulent" },
+            { id: 19, name: "幸运四叶草", desc: "据说找到它会有好运。", color: "66BB6A", imageUrl: "https://placehold.co/150/66BB6A/white?text=Clover" },
+            { id: 20, name: "神秘盲盒", desc: "里面是什么？只有天知道。", color: "5C6BC0", imageUrl: "https://placehold.co/150/5C6BC0/white?text=Mystery" }
+        ];
+
+        // --- 2. 游戏状态 ---
+        let collectedIds = new Set();
+        let currentResult = null;
+        let isSpinning = false;
+
+        // --- 3. 初始化 ---
+        window.onload = function() {
+            renderGlassBalls();
+            renderCollectionGrid();
+            updateProgress();
+        };
+
+            function renderGlassBalls() {
+            const container = document.getElementById('glassWindow');
+            container.innerHTML = '';
+            const colors = ['#FFB7B2', '#B5EAD7', '#FFDAC1', '#E2F0CB', '#C7CEEA'];
+            
+            // 恢复成整齐布局，15 个球
+            for(let i=0; i<15; i++) {
+                const ball = document.createElement('div');
+                ball.className = 'mini-ball';
+                
+                // 随机颜色
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                ball.style.setProperty('--ball-color', randomColor);
+                
+                ball.style.animationDelay = Math.random() + 's';
+                container.appendChild(ball);
+            }
+        }
+
+
+        function spinGacha() {
+            if (isSpinning) return;
+            isSpinning = true;
+            const knob = document.getElementById('spinBtn');
+            const droppedBall = document.getElementById('droppedBall');
+            knob.classList.add('spinning');
+            setTimeout(() => {
+                knob.classList.remove('spinning');
+                const randomIndex = Math.floor(Math.random() * itemsData.length);
+                currentResult = itemsData[randomIndex];
+                droppedBall.style.display = 'block';
+                droppedBall.style.background = `linear-gradient(135deg, ${currentResult.color} 50%, #fff 50%)`;
+                setTimeout(() => {
+                    openResult();
+                    isSpinning = false;
+                }, 1000);
+            }, 800);
+        }
+
+        function openResult() {
+            if (!currentResult) return;
+            const modal = document.getElementById('resultModal');
+            const img = document.getElementById('modalImg');
+            const title = document.getElementById('modalTitle');
+            const desc = document.getElementById('modalDesc');
+            const badge = document.getElementById('newBadge');
+            img.src = currentResult.imageUrl;
+            title.innerText = currentResult.name;
+            desc.innerText = currentResult.desc;
+            const isNew = !collectedIds.has(currentResult.id);
+            if (isNew) {
+                collectedIds.add(currentResult.id);
+                badge.style.display = 'inline-block';
+                renderCollectionGrid();
+                updateProgress();
+            } else {
+                badge.style.display = 'none';
+            }
+            modal.classList.add('active');
+            setTimeout(() => {
+                document.getElementById('droppedBall').style.display = 'none';
+            }, 300);
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('active');
+            currentResult = null;
+        }
+
+        function toggleCollection(show) {
+            const page = document.getElementById('collectionPage');
+            if (show) {
+                page.classList.add('active');
+                renderCollectionGrid();
+                updateProgress();
+            } else {
+                page.classList.remove('active');
+            }
+        }
+
+        function renderCollectionGrid() {
+            const grid = document.getElementById('collectionGrid');
+            grid.innerHTML = '';
+            itemsData.forEach(item => {
+                const isCollected = collectedIds.has(item.id);
+                const div = document.createElement('div');
+                div.className = `grid-item ${isCollected ? '' : 'locked'}`;
+                if (isCollected) {
+                    div.innerHTML = `<img src="${item.imageUrl}" alt="${item.name}">`;
+                    div.onclick = () => showItemDetail(item);
+                } else {
+                    div.onclick = () => alert("还没有收集到这个扭蛋哦，快去扭一扭吧！");
+                }
+                grid.appendChild(div);
+            });
+        }
+
+        function updateProgress() {
+            const count = collectedIds.size;
+            const total = itemsData.length;
+            const percent = (count / total) * 100;
+            document.getElementById('progressFill').style.width = `${percent}%`;
+            document.getElementById('progressText').innerText = `${count}/${total}`;
+        }
+
+        function showItemDetail(item) {
+            const modal = document.getElementById('resultModal');
+            const img = document.getElementById('modalImg');
+            const title = document.getElementById('modalTitle');
+            const desc = document.getElementById('modalDesc');
+            const badge = document.getElementById('newBadge');
+            img.src = item.imageUrl;
+            title.innerText = item.name;
+            desc.innerText = item.desc;
+            badge.style.display = 'none';
+            modal.classList.add('active');
+        }
+    </script>
+</body>
+</html>
