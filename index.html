@@ -870,20 +870,32 @@
         // ============================================
         // 隐藏奖励功能
         // ============================================
-        function checkFullCollection() {
+               function checkFullCollection() {
             if (collectedIds.size >= 20) {
-                const hasShownSecret = localStorage.getItem('hasShownSecret');
-                if (!hasShownSecret) {
+                // 用 sessionStorage 代替 localStorage（QQ 支持更好）
+                try {
+                    const hasShownSecret = sessionStorage.getItem('hasShownSecret');
+                    if (!hasShownSecret) {
+                        setTimeout(() => {
+                            const secretModal = document.getElementById('secretModal');
+                            if (secretModal) {
+                                secretModal.classList.add('active');
+                            }
+                        }, 1000);
+                        sessionStorage.setItem('hasShownSecret', 'true');
+                    }
+                } catch (e) {
+                    // 如果 storage 完全不可用，直接弹窗
                     setTimeout(() => {
                         const secretModal = document.getElementById('secretModal');
                         if (secretModal) {
                             secretModal.classList.add('active');
                         }
                     }, 1000);
-                    localStorage.setItem('hasShownSecret', 'true');
                 }
             }
         }
+
 
         function checkPassword() {
             const input = document.getElementById('secretPassword');
@@ -919,4 +931,5 @@
     </script>
 </body>
 </html>
+
 
