@@ -610,16 +610,16 @@
         // 修改 name（名称）、desc（描述）、imageUrl（图片路径）
         // ============================================
         const itemsData = [
-            { id: 1, name: "桃花枝", desc: "忽惊春到小桃枝<br>巡捕房的一枝春色", color: "FFB7B2", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/1.jpg" },
-            { id: 2, name: "风筝", desc: "清明踏青<br>割断线的风筝带走坏运气", color: "B5EAD7", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/2.jpg" },
-            { id: 3, name: "青梅酒", desc: "酿梅子酒<br>存初见时的春至夏小酌", color: "FFDAC1", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/3.jpg" },
-            { id: 4, name: "丁香花", desc: "暗香动，花满树<br>来自小洋楼庭院里的丁香树", color: "E2F0CB", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/4.jpg" },
-            { id: 5, name: "蓝宝石袖扣", desc: "灵魂之石<br>离别所赠，重逢相归", color: "C7CEEA", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/5.jpg" },
-            { id: 6, name: "平安锁", desc: "一岁一礼<br>逃难卖掉的平安锁有心人收存", color: "FF9AA2", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/6.jpg" },
-            { id: 7, name: "五彩绳", desc: "蕴五方神力，驱邪纳吉<br>端午，雨天相会的信物", color: "A8E6CF", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/7.jpg" },
-            { id: 8, name: "鼓", desc: "花神鼓上舞<br>脚踝铃铛声不歇", color: "FFD3B6", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/8.jpg" },
-            { id: 9, name: "游戏机", desc: "啪嗒砰！<br>大眼军团节奏会乱，我们几拍都不散", color: "DCEDC8", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/9.jpg" },
-            { id: 10, name: "玻璃瓶牛奶", desc: "作画休息来一瓶<br>喝完还是什么都想不起来吗", color: "B39DDB", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/10.jpg" },
+            { id: 1, name: "桃花枝", desc: "忽惊春到小桃枝<br>巡捕房的一枝春色", color: "FFB7B2", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/1.jpg?Expires=1772354780&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=ewfs34kx3B5obF4kWj1s0S3joZ4%3D" },
+            { id: 2, name: "风筝", desc: "清明踏青<br>割断线的风筝带走坏运气", color: "B5EAD7", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/2.jpg?Expires=1772355043&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=%2B3Q5V82%2FaEOqCuKOvG3B8UmJTQo%3D" },
+            { id: 3, name: "青梅酒", desc: "酿梅子酒<br>存初见时的春至夏小酌", color: "FFDAC1", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/3.jpg?Expires=1772355080&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=VVPOFX%2F2IQF9283qAt2KMxkFLK0%3D" },
+            { id: 4, name: "丁香花", desc: "暗香动，花满树<br>来自小洋楼庭院里的丁香树", color: "E2F0CB", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/4.jpg?Expires=1772355110&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=3IbNKS7KuH4dRhXK882bMT9CTl0%3D" },
+            { id: 5, name: "蓝宝石袖扣", desc: "灵魂之石<br>离别所赠，重逢相归", color: "C7CEEA", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/5.jpg?Expires=1772355160&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=kvmccl8xos8zCCAW6Xs3XcA3OX0%3D" },
+            { id: 6, name: "平安锁", desc: "一岁一礼<br>逃难卖掉的平安锁有心人收存", color: "FF9AA2", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/6.jpg?Expires=1772355180&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=kX6Hjxusf1GSdGuSiLeekOHjF7w%3D" },
+            { id: 7, name: "五彩绳", desc: "蕴五方神力，驱邪纳吉<br>端午，雨天相会的信物", color: "A8E6CF", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/7.jpg?Expires=1772355277&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=sB0NDMBkMyjp3rcbaWQT%2FIhcvQw%3D" },
+            { id: 8, name: "鼓", desc: "花神鼓上舞<br>脚踝铃铛声不歇", color: "FFD3B6", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/8.jpg?Expires=1772355305&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=42NDPIwTvSwIYxxvt0Zg9IotLik%3D" },
+            { id: 9, name: "游戏机", desc: "啪嗒砰！<br>大眼军团节奏会乱，我们几拍都不散", color: "DCEDC8", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/9.jpg?Expires=1772355331&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=bDbsFBPFynQmRtDGWs6gpQdjfdw%3D" },
+            { id: 10, name: "玻璃瓶牛奶", desc: "作画休息来一瓶<br>喝完还是什么都想不起来吗", color: "B39DDB", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/10.jpg?Expires=1772355385&OSSAccessKeyId=TMP.3KmxpjLnMyLoDrf4sCn1iW9vJNV393HUfMMZ7n46KTUsDHnLvsKbxNtNDyRdH9TcDyU4jPcxi6sCy1QRN1YQH2bDg5PvW8&Signature=7m8k1ujN8IQW4OVUZEh2553Sh%2BY%3D.jpg" },
             { id: 11, name: "烟花", desc: "Let's party！<br>烟花盛放作一场送行", color: "FFFFFF", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/11.jpg" },
             { id: 12, name: "圣诞苹果蜡烛", desc: "可以吃<br>怎么吃别管", color: "FFAB91", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/12.jpg" },
             { id: 13, name: "Maritozzo", desc: "奶油大胖子包<br>小面包鼓鼓撑撑的一生", color: "BCAAA4", imageUrl: "https://cdn.jsdelivr.net/gh/notion2601-tech/gacha-game/images/13.jpg" },
@@ -878,4 +878,5 @@
     </script>
 </body>
 </html>
+
 
