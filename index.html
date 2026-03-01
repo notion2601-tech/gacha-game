@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>马卡龙扭蛋机</title>
+    <title>幸运扭蛋机</title>
     <style>
         /* --- 基础设置与字体 --- */
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=ZCOOL+KuaiLe&display=swap');
@@ -37,9 +37,9 @@
             font-size: 2rem;
             color: #FF9AA2;
             text-shadow: 2px 2px 0px #FFF;
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: "ZCOOL KuaiLe", "YouYuan", "Microsoft YaHei", cursive;
             font-weight: normal;
-            letter-spacing: 5px;
+            letter-spacing: 3px;
         }
 
         /* --- 扭蛋机主体 --- */
@@ -53,7 +53,7 @@
             align-items: center;
         }
 
-      .machine-head {
+        .machine-head {
             width: 280px;
             height: 280px;
             background-color: var(--machine-body);
@@ -64,12 +64,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: visible; /* 改这里：允许耳朵露出来 */
+            overflow: visible;
             z-index: 2;
-            margin-top: 40px; /* 给耳朵留点空间 */
+            margin-top: 40px;
         }
 
-        /* 左耳朵 */
         .machine-head::before {
             content: '';
             position: absolute;
@@ -80,10 +79,9 @@
             background-color: var(--machine-body);
             border: 8px solid #FFF;
             border-radius: 50%;
-            z-index: -1; /* 放在主体后面 */
+            z-index: -1;
         }
 
-        /* 右耳朵 */
         .machine-head::after {
             content: '';
             position: absolute;
@@ -94,7 +92,7 @@
             background-color: var(--machine-body);
             border: 8px solid #FFF;
             border-radius: 50%;
-            z-index: -1; /* 放在主体后面 */
+            z-index: -1;
         }
 
         .glass-window {
@@ -107,20 +105,18 @@
             flex-wrap: wrap;
             justify-content: center;
             align-content: center;
-            padding: 10px;
-            gap: 5px;
+            padding: 15px;
+            gap: 3px;
         }
 
-            .mini-ball {
+               .mini-ball {
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            /* 这里用线性渐变实现双色球 */
             background: linear-gradient(135deg, var(--ball-color) 50%, #fff 50%);
             box-shadow: inset -2px -2px 5px rgba(0,0,0,0.1);
             animation: float 3s infinite ease-in-out;
         }
-   
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
@@ -240,6 +236,38 @@
             gap: 8px;
         }
 
+               /* 音乐控制按钮 */
+        .music-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            background-color: #FFB7B2;
+            color: white;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s, background-color 0.2s;
+            margin: 10px auto 20px auto; /* 居中 + 上下间距 */
+            display: block; /* 独占一行 */
+        }
+
+
+        .music-btn:hover {
+            transform: scale(1.05);
+            background-color: #FF9AA2;
+        }
+
+        .music-btn.playing {
+            background-color: #B5EAD7;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+            50% { box-shadow: 0 4px 20px rgba(181, 234, 215, 0.6); }
+        }
+
         /* --- 弹窗 (Modal) --- */
         .modal-overlay {
             position: fixed;
@@ -296,15 +324,18 @@
             letter-spacing: 2px;
         }
 
-        .modal-desc {
+            .modal-desc {
             color: #666666;
             font-size: 15px;
             font-family: "Microsoft YaHei", sans-serif;
-            line-height: 1.8;
-            margin-bottom: 10px;
-            text-align: left;
-            display: inline-block;
+            line-height: 2;
+            margin-bottom: 20px;
+            text-align: center;
+            display: block;
+            min-height: 60px;
         }
+
+
 
         .new-badge {
             background-color: #FFDAC1;
@@ -339,6 +370,43 @@
             margin: 20px auto 0;
             width: fit-content;
             font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        /* --- 隐藏奖励弹窗样式 --- */
+        .secret-content, .letter-content {
+            border: 5px solid #FFD700;
+        }
+
+        .password-input {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #FFB7B2;
+            border-radius: 20px;
+            font-size: 1rem;
+            text-align: center;
+            margin: 20px 0;
+            font-family: "Microsoft YaHei", sans-serif;
+            outline: none;
+        }
+
+        .password-input:focus {
+            border-color: #FF9AA2;
+        }
+
+        .letter-body {
+            background: linear-gradient(135deg, #FFF9F0 0%, #FFE4E1 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: left;
+            line-height: 2;
+            font-family: "Microsoft YaHei", sans-serif;
+            color: #6D6875;
+            border: 2px dashed #FFB7B2;
+        }
+
+        .letter-body p {
+            margin: 10px 0;
         }
 
         /* --- 图鉴页面 --- */
@@ -414,6 +482,16 @@
             position: relative;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             overflow: hidden;
+            border: 3px solid transparent;
+        }
+
+        .grid-item:not(.locked) {
+            border: 3px solid #FFB7B2;
+        }
+
+        .grid-item:not(.locked):hover {
+            border: 3px solid #FF9AA2;
+            transform: scale(1.05);
         }
 
         .grid-item img {
@@ -436,15 +514,14 @@
             font-weight: bold;
         }
 
-        .grid-item:hover:not(.locked) {
-            transform: scale(1.05);
-        }
-
     </style>
 </head>
 <body>
 
     <h1>✨ 幸运扭蛋机 ✨</h1>
+
+    <!-- 音乐控制按钮 -->
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵 音乐：关</button>
 
     <div class="machine-container">
         <div class="machine-head">
@@ -452,7 +529,7 @@
             </div>
         </div>
         <div class="machine-base">
-            <div class="knob" id="spinBtn" onclick="spinGacha()">↻</div>
+            <div class="knob" id="spinBtn" onclick="playSound(clickSound); spinGacha()">↻</div>
             <div class="drop-zone">
                 <div class="gacha-ball-drop" id="droppedBall" onclick="openResult()"></div>
             </div>
@@ -460,11 +537,19 @@
     </div>
 
     <div class="controls">
-        <button class="btn btn-gacha" onclick="spinGacha()">扭一下！</button>
-        <button class="btn btn-collection" onclick="toggleCollection(true)">
+        <button class="btn btn-gacha" onclick="playSound(clickSound); spinGacha()">扭一下！</button>
+        <button class="btn btn-collection" onclick="playSound(clickSound); toggleCollection(true)">
             🎁 图鉴
         </button>
     </div>
+
+    <!-- 音效文件（修改这里的音乐链接） -->
+    <audio id="bgMusic" loop>
+        <source src="audio/bgm.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound" src="audio/click.mp3"></audio>
+    <audio id="spinSound" src="audio/spin.mp3"></audio>
+    <audio id="dropSound" src="audio/drop.mp3"></audio>
 
     <!-- 结果弹窗 -->
     <div class="modal-overlay" id="resultModal">
@@ -473,7 +558,33 @@
             <img src="" alt="Item" class="modal-img" id="modalImg">
             <h2 class="modal-title" id="modalTitle">物品名称</h2>
             <p class="modal-desc" id="modalDesc">物品描述...</p>
-            <button class="btn-close" onclick="closeModal()">收下啦</button>
+            <button class="btn-close" onclick="playSound(clickSound); closeModal()">收下啦</button>
+        </div>
+    </div>
+
+    <!-- 隐藏奖励弹窗 -->
+    <div class="modal-overlay" id="secretModal">
+        <div class="modal-content secret-content">
+            <h2 class="modal-title">🎉 恭喜全收集！</h2>
+            <p class="modal-desc">你解锁了隐藏奖励！请输入密码查看信件~</p>
+            <input type="password" id="secretPassword" placeholder="输入密码" class="password-input">
+            <button class="btn-close" onclick="playSound(clickSound); checkPassword()">打开信件</button>
+            <button class="btn-close" onclick="playSound(clickSound); closeSecretModal()" style="background-color: #E0E0E0; color: #666;">暂不开启</button>
+        </div>
+    </div>
+
+    <!-- 信件内容弹窗 -->
+    <div class="modal-overlay" id="letterModal">
+        <div class="modal-content letter-content">
+            <h2 class="modal-title">💌 给你的信</h2>
+            <div class="letter-body">
+                <p>亲爱的：</p>
+                <p>恭喜你收集了所有扭蛋！</p>
+                <p>这封信是专门为你准备的隐藏奖励~</p>
+                <p>在这里写下你想说的话吧！</p>
+                <p style="text-align: right; margin-top: 30px;">—— 爱你的人</p>
+            </div>
+            <button class="btn-close" onclick="playSound(clickSound); closeLetterModal()">珍藏这封信</button>
         </div>
     </div>
 
@@ -481,7 +592,7 @@
     <div class="collection-page" id="collectionPage">
         <div class="collection-header">
             <h2>我的收藏</h2>
-            <div class="close-collection" onclick="toggleCollection(false)">&times;</div>
+            <div class="close-collection" onclick="playSound(clickSound); toggleCollection(false)">&times;</div>
         </div>
         
         <div class="progress-bar">
@@ -494,73 +605,143 @@
     </div>
 
     <script>
-        // --- 1. 数据配置 (20 个物品) ---
+        // ============================================
+        // 【需要修改】物品数据（20 个物品）
+        // 修改 name（名称）、desc（描述）、imageUrl（图片路径）
+        // ============================================
         const itemsData = [
-            { id: 1, name: "桃花枝", desc: "忽惊春到小桃枝", color: "FFD1DC", imageUrl: "images/1.jpg" },
-            { id: 2, name: "薄荷冰淇淋", desc: "清凉一夏，透心凉。", color: "B5EAD7", imageUrl: "https://placehold.co/150/B5EAD7/white?text=Mint" },
-            { id: 3, name: "柠檬挞", desc: "酸酸甜甜，活力满满。", color: "FFDAC1", imageUrl: "https://placehold.co/150/FFDAC1/white?text=Lemon" },
-            { id: 4, name: "薰衣草香薰", desc: "安神助眠，梦幻紫色。", color: "E2F0CB", imageUrl: "https://placehold.co/150/E2F0CB/white?text=Lavender" },
-            { id: 5, name: "蓝莓松饼", desc: "周末早晨的最佳伴侣。", color: "C7CEEA", imageUrl: "https://placehold.co/150/C7CEEA/white?text=Blueberry" },
-            { id: 6, name: "蜜桃乌龙", desc: "茶香与果香的完美融合。", color: "FF9AA2", imageUrl: "https://placehold.co/150/FF9AA2/white?text=Peach" },
-            { id: 7, name: "抹茶千层", desc: "苦中带甜，层次丰富。", color: "A8E6CF", imageUrl: "https://placehold.co/150/A8E6CF/white?text=Matcha" },
-            { id: 8, name: "海盐焦糖", desc: "咸甜交织，口感独特。", color: "FFD3B6", imageUrl: "https://placehold.co/150/FFD3B6/white?text=SeaSalt" },
-            { id: 9, name: "香芋波波", desc: "紫色的小可爱，嚼劲十足。", color: "DCEDC8", imageUrl: "https://placehold.co/150/DCEDC8/white?text=Taro" },
-            { id: 10, name: "星空棒棒糖", desc: "仿佛把银河握在手中。", color: "B39DDB", imageUrl: "https://placehold.co/150/B39DDB/white?text=Galaxy" },
-            { id: 11, name: "云朵抱枕", desc: "像躺在云端一样柔软。", color: "FFFFFF", imageUrl: "https://placehold.co/150/FFFFFF/333?text=Cloud" },
-            { id: 12, name: "彩虹发夹", desc: "点亮你的发型。", color: "FFAB91", imageUrl: "https://placehold.co/150/FFAB91/white?text=Rainbow" },
-            { id: 13, name: "猫咪马克杯", desc: "喝水都要可可爱爱。", color: "BCAAA4", imageUrl: "https://placehold.co/150/BCAAA4/white?text=Cat" },
-            { id: 14, name: "向日葵种子", desc: "种下希望，等待花开。", color: "FFF59D", imageUrl: "https://placehold.co/150/FFF59D/333?text=Sunflower" },
-            { id: 15, name: "复古胶卷", desc: "记录美好的瞬间。", color: "90A4AE", imageUrl: "https://placehold.co/150/90A4AE/white?text=Film" },
-            { id: 16, name: "魔法药水", desc: "喝了会变开心哦！(假的)", color: "CE93D8", imageUrl: "https://placehold.co/150/CE93D8/white?text=Potion" },
-            { id: 17, name: "像素游戏机", desc: "回到 8-bit 的童年。", color: "81D4FA", imageUrl: "https://placehold.co/150/81D4FA/white?text=Game" },
-            { id: 18, name: "多肉植物", desc: "好养又好看的桌面绿植。", color: "A5D6A7", imageUrl: "https://placehold.co/150/A5D6A7/white?text=Succulent" },
-            { id: 19, name: "幸运四叶草", desc: "据说找到它会有好运。", color: "66BB6A", imageUrl: "https://placehold.co/150/66BB6A/white?text=Clover" },
-            { id: 20, name: "神秘盲盒", desc: "里面是什么？只有天知道。", color: "5C6BC0", imageUrl: "https://placehold.co/150/5C6BC0/white?text=Mystery" }
+            { id: 1, name: "桃花枝", desc: "忽惊春到小桃枝<br>巡捕房的一枝春色", color: "FFB7B2", imageUrl: "images/1.jpg" },
+            { id: 2, name: "风筝", desc: "清明踏青<br>割断线的风筝带走坏运气", color: "B5EAD7", imageUrl: "images/2.jpg" },
+            { id: 3, name: "青梅酒", desc: "酿梅子酒<br>存初见时的春至夏小酌", color: "FFDAC1", imageUrl: "images/3.jpg" },
+            { id: 4, name: "丁香花", desc: "暗香动，花满树<br>来自小洋楼庭院里的丁香树", color: "E2F0CB", imageUrl: "images/4.jpg" },
+            { id: 5, name: "蓝宝石袖扣", desc: "灵魂之石<br>离别所赠，重逢相归", color: "C7CEEA", imageUrl: "images/5.jpg" },
+            { id: 6, name: "平安锁", desc: "一岁一礼<br>逃难卖掉的平安锁有心人收存", color: "FF9AA2", imageUrl: "images/6.jpg" },
+            { id: 7, name: "五彩绳", desc: "蕴五方神力，驱邪纳吉<br>端午，雨天相会的信物", color: "A8E6CF", imageUrl: "images/7.jpg" },
+            { id: 8, name: "鼓", desc: "花神鼓上舞<br>脚踝铃铛声不歇", color: "FFD3B6", imageUrl: "images/8.jpg" },
+            { id: 9, name: "游戏机", desc: "啪嗒砰！<br>大眼军团节奏会乱，我们几拍都不散", color: "DCEDC8", imageUrl: "images/9.jpg" },
+            { id: 10, name: "玻璃瓶牛奶", desc: "作画休息来一瓶<br>喝完还是什么都想不起来吗", color: "B39DDB", imageUrl: "images/10.jpg" },
+            { id: 11, name: "烟花", desc: "Let's party！<br>烟花盛放作一场送行", color: "FFFFFF", imageUrl: "images/11.jpg" },
+            { id: 12, name: "圣诞苹果蜡烛", desc: "可以吃<br>怎么吃别管", color: "FFAB91", imageUrl: "images/12.jpg" },
+            { id: 13, name: "Maritozzo", desc: "奶油大胖子包<br>小面包鼓鼓撑撑的一生", color: "BCAAA4", imageUrl: "images/13.jpg" },
+            { id: 14, name: "饼干盒", desc: "旧式铁盒子<br>天知道饼干盒里装着什么", color: "FFF59D", imageUrl: "images/14.jpg" },
+            { id: 15, name: "丝巾", desc: "城南的风太轻<br>丝巾跟着心飘走了", color: "90A4AE", imageUrl: "images/15.jpg" },
+            { id: 16, name: "酒瓶", desc: "查案专用<br>注意撇干净茶沫子", color: "CE93D8", imageUrl: "images/16.jpg" },
+            { id: 17, name: "银元", desc: "一枚袁大头<br>新时代必须银元入场的是正经地方吗", color: "81D4FA", imageUrl: "images/17.jpg" },
+            { id: 18, name: "黑金卡片", desc: "Amor Fati<br>自由是你对自己说的谎言", color: "A5D6A7", imageUrl: "images/18.jpg" },
+            { id: 19, name: "玉佩", desc: "君子无故，玉不去身<br>被无故抢走那就没办法了", color: "66BB6A", imageUrl: "images/19.jpg" },
+            { id: 20, name: "朱批笔", desc: " 用于批阅折子<br>不限于纸折子", color: "5C6BC0", imageUrl: "images/20.jpg" }
         ];
 
-        // --- 2. 游戏状态 ---
+        // ============================================
+        // 【需要修改】隐藏奖励密码
+        // ============================================
+        const SECRET_PASSWORD = "240302";
+
+        // ============================================
+        // 游戏状态（不要修改）
+        // ============================================
         let collectedIds = new Set();
         let currentResult = null;
         let isSpinning = false;
+        let pityCounter = 0;
+        let isMusicPlaying = false;
 
-        // --- 3. 初始化 ---
+        // 音效和音乐元素
+        const bgMusic = document.getElementById('bgMusic');
+        const clickSound = document.getElementById('clickSound');
+        const spinSound = document.getElementById('spinSound');
+        const dropSound = document.getElementById('dropSound');
+        const musicBtn = document.getElementById('musicBtn');
+
+        // 设置音量
+        bgMusic.volume = 0.5;
+
+        // ============================================
+        // 初始化（不要修改）
+        // ============================================
         window.onload = function() {
             renderGlassBalls();
             renderCollectionGrid();
             updateProgress();
         };
 
-            function renderGlassBalls() {
+        // ============================================
+        // 音乐控制功能（不要修改）
+        // ============================================
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicBtn.innerText = '🎵 音乐：关';
+                musicBtn.classList.remove('playing');
+                isMusicPlaying = false;
+            } else {
+                bgMusic.play();
+                musicBtn.innerText = '🎵 音乐：开';
+                musicBtn.classList.add('playing');
+                isMusicPlaying = true;
+            }
+        }
+
+        // ============================================
+        // 音效播放功能（不要修改）
+        // ============================================
+        function playSound(sound) {
+            if (sound) {
+                sound.currentTime = 0;
+                sound.volume = 0.6;
+                sound.play().catch(e => console.log('音效播放失败:', e));
+            }
+        }
+
+        // ============================================
+        // 渲染玻璃窗小球（不要修改）
+        // ============================================
+        function renderGlassBalls() {
             const container = document.getElementById('glassWindow');
             container.innerHTML = '';
             const colors = ['#FFB7B2', '#B5EAD7', '#FFDAC1', '#E2F0CB', '#C7CEEA'];
             
-            // 恢复成整齐布局，15 个球
-            for(let i=0; i<15; i++) {
+            itemsData.forEach((item, index) => {
+                if (collectedIds.has(item.id)) return;
+                
                 const ball = document.createElement('div');
                 ball.className = 'mini-ball';
-                
-                // 随机颜色
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                ball.style.setProperty('--ball-color', randomColor);
-                
-                ball.style.animationDelay = Math.random() + 's';
+                ball.style.setProperty('--ball-color', '#' + item.color);
+                ball.style.animationDelay = (index * 0.1) + 's';
                 container.appendChild(ball);
-            }
+            });
         }
 
-
+        // ============================================
+        // 扭蛋核心逻辑（不要修改）
+        // ============================================
         function spinGacha() {
             if (isSpinning) return;
             isSpinning = true;
             const knob = document.getElementById('spinBtn');
             const droppedBall = document.getElementById('droppedBall');
             knob.classList.add('spinning');
+            playSound(spinSound);
             setTimeout(() => {
                 knob.classList.remove('spinning');
-                const randomIndex = Math.floor(Math.random() * itemsData.length);
+                
+                let randomIndex;
+                if (pityCounter >= 2) {
+                    const uncollectedItems = itemsData.filter(item => !collectedIds.has(item.id));
+                    if (uncollectedItems.length > 0) {
+                        const randomItem = uncollectedItems[Math.floor(Math.random() * uncollectedItems.length)];
+                        randomIndex = itemsData.findIndex(item => item.id === randomItem.id);
+                    } else {
+                        randomIndex = Math.floor(Math.random() * itemsData.length);
+                    }
+                    pityCounter = 0;
+                } else {
+                    randomIndex = Math.floor(Math.random() * itemsData.length);
+                }
+                
                 currentResult = itemsData[randomIndex];
                 droppedBall.style.display = 'block';
+                playSound(dropSound);
                 droppedBall.style.background = `linear-gradient(135deg, ${currentResult.color} 50%, #fff 50%)`;
                 setTimeout(() => {
                     openResult();
@@ -569,6 +750,9 @@
             }, 800);
         }
 
+        // ============================================
+        // 结果弹窗（不要修改）
+        // ============================================
         function openResult() {
             if (!currentResult) return;
             const modal = document.getElementById('resultModal');
@@ -578,15 +762,20 @@
             const badge = document.getElementById('newBadge');
             img.src = currentResult.imageUrl;
             title.innerText = currentResult.name;
-            desc.innerText = currentResult.desc;
+            desc.innerHTML = currentResult.desc;
+
             const isNew = !collectedIds.has(currentResult.id);
             if (isNew) {
                 collectedIds.add(currentResult.id);
                 badge.style.display = 'inline-block';
                 renderCollectionGrid();
                 updateProgress();
+                checkFullCollection();
+                renderGlassBalls();
+                pityCounter = 0;
             } else {
                 badge.style.display = 'none';
+                pityCounter++;
             }
             modal.classList.add('active');
             setTimeout(() => {
@@ -599,6 +788,9 @@
             currentResult = null;
         }
 
+        // ============================================
+        // 图鉴功能（不要修改）
+        // ============================================
         function toggleCollection(show) {
             const page = document.getElementById('collectionPage');
             if (show) {
@@ -641,13 +833,48 @@
             const title = document.getElementById('modalTitle');
             const desc = document.getElementById('modalDesc');
             const badge = document.getElementById('newBadge');
-            img.src = item.imageUrl;
+                       img.src = item.imageUrl;
             title.innerText = item.name;
-            desc.innerText = item.desc;
+            desc.innerHTML = item.desc;
             badge.style.display = 'none';
             modal.classList.add('active');
+        }
+
+        // ============================================
+        // 隐藏奖励功能（不要修改）
+        // ============================================
+        function checkFullCollection() {
+            if (collectedIds.size >= 20) {
+                const hasShownSecret = localStorage.getItem('hasShownSecret');
+                if (!hasShownSecret) {
+                    setTimeout(() => {
+                        document.getElementById('secretModal').classList.add('active');
+                    }, 1000);
+                    localStorage.setItem('hasShownSecret', 'true');
+                }
+            }
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('secretPassword').value;
+            if (input === SECRET_PASSWORD) {
+                closeSecretModal();
+                setTimeout(() => {
+                    document.getElementById('letterModal').classList.add('active');
+                }, 300);
+            } else {
+                alert('密码不对哦，再试试吧~ 💕');
+                document.getElementById('secretPassword').value = '';
+            }
+        }
+
+        function closeSecretModal() {
+            document.getElementById('secretModal').classList.remove('active');
+        }
+
+        function closeLetterModal() {
+            document.getElementById('letterModal').classList.remove('active');
         }
     </script>
 </body>
 </html>
-
