@@ -373,9 +373,12 @@
         }
 
         /* --- 隐藏奖励弹窗样式 --- */
-        .secret-content, .letter-content {
+               .secret-content, .letter-content {
             border: 5px solid #FFD700;
+            max-height: 80vh; /* 最大高度为屏幕的 80% */
+            overflow-y: auto; /* 内容超出时显示滚动条 */
         }
+
 
         .password-input {
             width: 80%;
@@ -393,7 +396,7 @@
             border-color: #FF9AA2;
         }
 
-        .letter-body {
+               .letter-body {
             background: linear-gradient(135deg, #FFF9F0 0%, #FFE4E1 100%);
             padding: 30px;
             border-radius: 15px;
@@ -403,11 +406,15 @@
             font-family: "Microsoft YaHei", sans-serif;
             color: #6D6875;
             border: 2px dashed #FFB7B2;
+            max-width: 100%;
+            word-wrap: break-word; /* 长单词自动换行 */
         }
 
         .letter-body p {
-            margin: 10px 0;
+            margin: 15px 0;
+            text-indent: 2em; /* 段首缩进 2 字符 */
         }
+
 
         /* --- 图鉴页面 --- */
         .collection-page {
@@ -578,13 +585,23 @@
         <div class="modal-content letter-content">
             <h2 class="modal-title">💌 给你的信</h2>
             <div class="letter-body">
-                <p>亲爱的：</p>
-                <p>恭喜你收集了所有扭蛋！</p>
-                <p>这封信是专门为你准备的隐藏奖励~</p>
-                <p>在这里写下你想说的话吧！</p>
-                <p style="text-align: right; margin-top: 30px;">—— 爱你的人</p>
-            </div>
-            <button class="btn-close" onclick="playSound(clickSound); closeLetterModal()">珍藏这封信</button>
+    <p>顾啸小朋友：</p>
+    <p>恭喜你收集了所有扭蛋！</p>
+    <p>这封信是为你准备的彩蛋🌸</p>
+    <p>首先，相识两周年快乐！🎉</p>
+    <p>我觉得我们好像已经认识二十年，又好像才认识两天。我想，二十年是因为我们在一起发生了那么多事，经历了那么多平行时空。而两天是因为，任何一件与你相关的事，想起来都近在眼前。两年前你信手折的那枝桃花，如今仍然能从晚风里闻到新嫩的桃枝香。</p>
+    <p>当时你独自站在树下，我想你是不是不开心。时至今日，我也会想，你不开心时我能做什么？</p>
+    <p>语擦不能锦上添花，因为春风得意时，估摸就享受在更真切的三次世界里。这里也不能雪中送炭，正如你近来遇到的让你焦躁的诸般事，我即便给你拿几个快递也是做不到的。 </p>
+    <p>后来我就想明白，在一起就是彼此作陪吧。</p>
+    <p>倾盆大雨时作陪，春风拂面时作陪。</p>
+    <p>在就是好的。</p>
+    <p>很幸运能够遇见你，真是漂亮了我好一大跳。</p>
+    <p>愿你，愿我，愿我们，今年都多多走在绝好的光景里。 </p>
+    <p>柚子叶给你挂上，坏心情去去去。</p>
+    <p style="text-align: right; margin-top: 30px;">——老乔</p>
+</div>
+
+            <button class="btn-close" onclick="playSound(clickSound); closeLetterModal()">收藏这封信</button>
         </div>
     </div>
 
@@ -612,10 +629,10 @@
         const itemsData = [
             { id: 1, name: "桃花枝", desc: "忽惊春到小桃枝<br>巡捕房的一枝春色", color: "FFB7B2", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/1.jpg" },
             { id: 2, name: "风筝", desc: "清明踏青<br>割断线的风筝带走坏运气", color: "B5EAD7", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/2.jpg" },
-            { id: 3, name: "青梅酒", desc: "酿梅子酒<br>存初见时的春至夏小酌", color: "FFDAC1", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/3.jpg" },
+            { id: 3, name: "青梅酒", desc: "酿梅子酒<br>存初见时的春，至夏小酌", color: "FFDAC1", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/3.jpg" },
             { id: 4, name: "丁香花", desc: "暗香动，花满树<br>来自小洋楼庭院里的丁香树", color: "E2F0CB", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/4.jpg" },
             { id: 5, name: "蓝宝石袖扣", desc: "灵魂之石<br>离别所赠，重逢相归", color: "C7CEEA", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/5.jpg" },
-            { id: 6, name: "平安锁", desc: "一岁一礼<br>逃难卖掉的平安锁有心人收存", color: "FF9AA2", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/6.jpg" },
+            { id: 6, name: "平安锁", desc: "一岁一礼<br>逃难卖掉的平安锁，有心人收存", color: "FF9AA2", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/6.jpg" },
             { id: 7, name: "五彩绳", desc: "蕴五方神力，驱邪纳吉<br>端午，雨天相会的信物", color: "A8E6CF", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/7.jpg" },
             { id: 8, name: "鼓", desc: "花神鼓上舞<br>脚踝铃铛声不歇", color: "FFD3B6", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/8.jpg" },
             { id: 9, name: "游戏机", desc: "啪嗒砰！<br>大眼军团节奏会乱，我们几拍都不散", color: "DCEDC8", imageUrl: "https://gacha-game-images.oss-cn-shenzhen.aliyuncs.com/9.jpg" },
